@@ -6,7 +6,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/LDTorres/golang-interview/internal"
+	"github.com/LDTorres/golang-interview/internal/http"
+	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
@@ -39,7 +40,9 @@ func main() {
 		log.Fatal("Failed to connect to database:", err)
 	}
 
-	internal.SolutionDB(db)
+	app := fiber.New()
 
-	internal.Solution("test")
+	http.SetupRoutes(app, db)
+
+	app.Listen(":3000")
 }
